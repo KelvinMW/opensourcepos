@@ -1,27 +1,35 @@
-version: '2'
+version: '3.7'
 
 volumes:
     uploads:
         driver: local
-  
-services:
-    sqlscript:
-        build:
-            context: database/
-            dockerfile: Dockerfile
+    logs:
+        driver: local
+    mysql:
+        driver: local
 
+networks:
+    app_net:
+    db_net:
+
+services:
     ospos:
         build:
             context: .
-            dockerfile: Dockerfile.dev
-        container_name: ospos
+            target: ospos_dev
+        container_name: ospos_dev
         restart: always
         depends_on:
           - mysql
         ports:
           - "80:80"
+        networks:
+          - app_net
+          - db_net
         volumes:
           - .:/app
+          - uploads:/app/public/uploads
+          - logs:/app/application/logs
         environment:
           - PHP_TIMEZONE=UTC
           - MYSQL_USERNAME=admin
@@ -31,13 +39,16 @@ services:
           - XDEBUG_CONFIG=remote_host=172.17.0.1
 
     mysql:
-        image: mariadb:10.1.21
+        image: mariadb:10.5
         container_name: mysql
         restart: always
-        ports:
-          - "3306:3306"
-        volumes_from:
-          - sqlscript
+        expose:
+          - "3306"
+        networks:
+          - db_net
+        volumes:
+          - ./database/database.sql:/docker-entrypoint-initdb.d/database.sql
+          - mysql:/var/lib/mysql:rw
         environment:
           - MYSQL_ROOT_PASSWORD=pointofsale
           - MYSQL_DATABASE=ospos

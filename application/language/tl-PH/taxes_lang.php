@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 $lang["taxes_add_exception"] = "Add Exception";
 $lang["taxes_cascade"] = "Cascade";
 $lang["taxes_cascade_sequence"] = "Cascade Sequence";
@@ -13,6 +14,7 @@ $lang["taxes_group_seq"] = "Group Seq";
 $lang["taxes_jurisdiction_name"] = "Jurisdiction Name";
 $lang["taxes_name"] = "Name";
 $lang["taxes_new"] = "New Tax";
+$lang["taxes_no_taxes"] = "";
 $lang["taxes_no_taxes_to_display"] = "No Taxes Code available to display";
 $lang["taxes_reporting_authority"] = "Reporting Authority";
 $lang["taxes_round_half_down"] = "Half Down";
@@ -53,6 +55,7 @@ $lang["taxes_tax_codes_saved_successfully"] = "Tax Code changes not saved";
 $lang["taxes_tax_codes_saved_unsuccessfully"] = "Tax Code changes saved";
 $lang["taxes_tax_excluded"] = "Tax excluded";
 $lang["taxes_tax_group"] = "Tax Group";
+$lang["taxes_tax_group_not_unique"] = "";
 $lang["taxes_tax_group_sequence"] = "Tax Group Sequence";
 $lang["taxes_tax_included"] = "Tax included";
 $lang["taxes_tax_jurisdiction"] = "Tax Jurisdiction";

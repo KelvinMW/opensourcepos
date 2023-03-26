@@ -42,6 +42,7 @@ function transform_headers($array, $readonly = FALSE, $editable = TRUE)
 		$result[] = array('field' => key($element),
 			'title' => current($element),
 			'switchable' => isset($element['switchable']) ? $element['switchable'] : !preg_match('(^$|&nbsp)', current($element)),
+			'escape' => !preg_match("/(edit|phone_number|email|messages|item_pic)/", key($element)) && !(isset($element['escape']) && !$element['escape']),
 			'sortable' => isset($element['sortable']) ? $element['sortable'] : current($element) != '',
 			'checkbox' => isset($element['checkbox']) ? $element['checkbox'] : FALSE,
 			'class' => isset($element['checkbox']) || preg_match('(^$|&nbsp)', current($element)) ? 'print_hide' : '',
@@ -72,10 +73,10 @@ function get_sales_manage_table_headers()
 	if($CI->config->item('invoice_enable') == TRUE)
 	{
 		$headers[] = array('invoice_number' => $CI->lang->line('sales_invoice_number'));
-		$headers[] = array('invoice' => '&nbsp', 'sortable' => FALSE);
+		$headers[] = array('invoice' => '&nbsp', 'sortable' => FALSE, 'escape' => FALSE);
 	}
 
-	$headers[] = array('receipt' => '&nbsp', 'sortable' => FALSE);
+	$headers[] = array('receipt' => '&nbsp', 'sortable' => FALSE, 'escape' => FALSE);
 
 	return transform_headers($headers);
 }
@@ -137,37 +138,30 @@ function get_sale_data_last_row($sales)
 
 	return array(
 		'sale_id' => '-',
-		'sale_time' => '<b>'.$CI->lang->line('sales_total').'</b>',
-		'amount_due' => '<b>'.to_currency($sum_amount_due).'</b>',
-		'amount_tendered' => '<b>'. to_currency($sum_amount_tendered).'</b>',
-		'change_due' => '<b>'.to_currency($sum_change_due).'</b>'
+		'sale_time' => $CI->lang->line('sales_total'),
+		'amount_due' => to_currency($sum_amount_due),
+		'amount_tendered' => to_currency($sum_amount_tendered),
+		'change_due' => to_currency($sum_change_due)
 	);
 }
 
 /*
 Get the sales payments summary
 */
-function get_sales_manage_payments_summary($payments, $sales)
+function get_sales_manage_payments_summary($payments)
 {
 	$CI =& get_instance();
 
 	$table = '<div id="report_summary">';
+	$total = 0;
 
 	foreach($payments as $key=>$payment)
 	{
 		$amount = $payment['payment_amount'];
-
-		// WARNING: the strong assumption here is that if a change is due it was a cash transaction always
-		// therefore we remove from the total cash amount any change due
-		if($payment['payment_type'] == $CI->lang->line('sales_cash'))
-		{
-			foreach($sales->result_array() as $key=>$sale)
-			{
-				$amount -= $sale['change_due'];
-			}
-		}
+		$total = bcadd($total, $amount);
 		$table .= '<div class="summary_row">' . $payment['payment_type'] . ': ' . to_currency($amount) . '</div>';
 	}
+	$table .= '<div class="summary_row">' . $CI->lang->line('sales_total') . ': ' . to_currency($total) . '</div>';
 	$table .= '</div>';
 
 	return $table;
@@ -354,11 +348,11 @@ function get_items_manage_table_headers()
 
 	foreach($definition_names as $definition_id => $definition_name)
 	{
-		$headers[] = array($definition_id => $definition_name);
+		$headers[] = array($definition_id => $definition_name, 'sortable' => FALSE);
 	}
 
-	$headers[] = array('inventory' => '');
-	$headers[] = array('stock' => '');
+	$headers[] = array('inventory' => '', 'escape' => FALSE);
+	$headers[] = array('stock' => '', 'escape' => FALSE);
 
 	return transform_headers($headers);
 }
@@ -503,6 +497,7 @@ function get_item_kits_manage_table_headers()
 
 	$headers = array(
 		array('item_kit_id' => $CI->lang->line('item_kits_kit')),
+		array('item_kit_number' => $CI->lang->line('item_kits_item_kit_number')),
 		array('name' => $CI->lang->line('item_kits_name')),
 		array('description' => $CI->lang->line('item_kits_description')),
 		array('total_cost_price' => $CI->lang->line('items_cost_price'), 'sortable' => FALSE),
@@ -523,6 +518,7 @@ function get_item_kit_data_row($item_kit)
 
 	return array (
 		'item_kit_id' => $item_kit->item_kit_id,
+		'item_kit_number' => $item_kit->item_kit_number,
 		'name' => $item_kit->name,
 		'description' => $item_kit->description,
 		'total_cost_price' => to_currency($item_kit->total_cost_price),
@@ -722,9 +718,9 @@ function get_expenses_data_last_row($expense)
 
 	return array(
 		'expense_id' => '-',
-		'date' => '<b>'.$CI->lang->line('sales_total').'</b>',
-		'amount' => '<b>'. to_currency($sum_amount_expense).'</b>',
-		'tax_amount' => '<b>'. to_currency($sum_tax_amount_expense).'</b>'
+		'date' => $CI->lang->line('sales_total'),
+		'amount' => to_currency($sum_amount_expense),
+		'tax_amount' => to_currency($sum_tax_amount_expense)
 	);
 }
 

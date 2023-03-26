@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 $lang["taxes_add_exception"] = "Agregar Excepcion";
 $lang["taxes_cascade"] = "Cascada";
 $lang["taxes_cascade_sequence"] = "Secuencia de Cascada";
@@ -13,21 +14,22 @@ $lang["taxes_group_seq"] = "Secuencia de Grupo";
 $lang["taxes_jurisdiction_name"] = "Nombre de la Jurisdicción";
 $lang["taxes_name"] = "Nombre";
 $lang["taxes_new"] = "Impuesto Nuevo";
+$lang["taxes_no_taxes"] = "";
 $lang["taxes_no_taxes_to_display"] = "Códigos de impuestos no disponible";
 $lang["taxes_reporting_authority"] = "Imformacion de Autoridad";
-$lang["taxes_round_half_down"] = "medio abajo";
-$lang["taxes_round_half_even"] = "";
-$lang["taxes_round_half_odd"] = "";
-$lang["taxes_round_half_up"] = "";
+$lang["taxes_round_half_down"] = "a número entero inferior";
+$lang["taxes_round_half_even"] = "a numero par entero más próximo";
+$lang["taxes_round_half_odd"] = "a numero entero impar mas próximo";
+$lang["taxes_round_half_up"] = "a numero entero superior";
 $lang["taxes_rounding_code"] = "código de redondeo";
 $lang["taxes_sales_tax"] = "Impuesto de Venta";
-$lang["taxes_sales_tax_by_invoice"] = "Impuesto de Venta en factura";
+$lang["taxes_sales_tax_by_invoice"] = "Impuesto de Ventas por factura";
 $lang["taxes_sequence"] = "Secuencia";
 $lang["taxes_state"] = "Estado";
 $lang["taxes_successful_deleted"] = "Eliminado Satisfactoriamente";
 $lang["taxes_tax_categories"] = "Categorias de Impuestos";
 $lang["taxes_tax_categories_configuration"] = "Configuración de Categorías de Impuestos";
-$lang["taxes_tax_categories_saved_successfully"] = "Categorias de impuestos guardados";
+$lang["taxes_tax_categories_saved_successfully"] = "Las categorías de impuestos han sido guardados";
 $lang["taxes_tax_categories_saved_unsuccessfully"] = "Categorías de impuestos no han sido guardados";
 $lang["taxes_tax_category"] = "Categoria de Impuesto";
 $lang["taxes_tax_category_code"] = "codigo de categoria de impuesto";
@@ -53,6 +55,7 @@ $lang["taxes_tax_codes_saved_successfully"] = "cambios guardados en codigo de im
 $lang["taxes_tax_codes_saved_unsuccessfully"] = "no se guardaron los cambios en el codigo de impuesto";
 $lang["taxes_tax_excluded"] = "impuesto excluido";
 $lang["taxes_tax_group"] = "grupo de impuesto";
+$lang["taxes_tax_group_not_unique"] = "Grupo de impuestos %1 no es el unico";
 $lang["taxes_tax_group_sequence"] = "secuencia de grupo de impuesto";
 $lang["taxes_tax_included"] = "impuesto incluido";
 $lang["taxes_tax_jurisdiction"] = "impuesto por ley";
